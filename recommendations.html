@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen">
+    <h1 class="text-3xl font-bold mb-6">Recommended Movies</h1>
+    <div class="overflow-x-auto">
+        <table class="table-auto">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2">S.No</th>
+                    <th class="px-4 py-2">Movie Title</th>
+                    <th class="px-4 py-2">Average Movie Rating</th>
+                    <th class="px-4 py-2">Num Reviews</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in genre_recommendations.iterrows() %}
+                <tr>
+                    <td class="px-4 py-2">{{ index + 1 }}</td>
+                    <td class="px-4 py-2">{{ row['title'] }}</td>
+                    <td class="px-4 py-2">{{ row['AverageMovieRating'] }}</td>
+                    <td class="px-4 py-2">{{ row['NumReviews'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click event listener to table rows for highlighting
+            const rows = document.querySelectorAll('tr');
+            rows.forEach(row => {
+                row.addEventListener('click', function() {
+                    row.classList.toggle('bg-yellow-200'); // Toggle background color on click
+                    row.classList.add('animate-pulse'); // Add pulse animation on click
+                    setTimeout(() => {
+                        row.classList.remove('animate-pulse'); // Remove pulse animation after 1 second
+                    }, 1000);
+                });
+            });
+    
+            // Add mouseover and mouseout event listeners to table rows for scaling effect
+            rows.forEach(row => {
+                row.addEventListener('mouseover', function() {
+                    row.style.transform = 'scale(1.05)'; // Scale up on mouseover
+                    row.style.transition = 'transform 0.3s ease'; // Add transition for smooth scaling
+                });
+                row.addEventListener('mouseout', function() {
+                    row.style.transform = 'scale(1)'; // Scale back to normal size on mouseout
+                });
+            });
+        });
+    </script>
+</body>
+</html>
